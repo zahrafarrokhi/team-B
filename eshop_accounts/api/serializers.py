@@ -23,13 +23,18 @@ class SignupSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('password not equal') 
         return data
       
-        
-    def save(self):
-        try:       
-            user = User.objects.create_user(email=self.validated_data['email'],phone=self.validated_data['phone'],password=self.validated_data['password1'])        
-        except IntegrityError as e:
-            raise e       
+    def create(self, validated_data):
+        user = User(email=validated_data['email'],
+                   phone=validated_data['phone'],
+                   password=validated_data['password1'])
+        user.save()
         return user
+#     def save(self):
+#         try:       
+#             user = User.objects.create_user(email=self.validated_data['email'],phone=self.validated_data['phone'],password=self.validated_data['password1'])        
+#         except IntegrityError as e:
+#             raise e       
+#         return user
 
 
 # customer
